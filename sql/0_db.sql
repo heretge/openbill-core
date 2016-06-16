@@ -37,9 +37,10 @@ CREATE INDEX index_accounts_on_meta ON OPENBILL_ACCOUNTS USING gin (meta);
 CREATE INDEX index_accounts_on_created_at ON OPENBILL_ACCOUNTS USING btree (created_at);
 
 CREATE TABLE OPENBILL_TRANSACTIONS (
-  owner_id            UUID,
   id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  owner_id        UUID,
   username        character varying(255) not null,
+  date            date default current_date,
   created_at      timestamp without time zone default current_timestamp,
   from_account_id uuid not null,
   to_account_id   uuid not null,

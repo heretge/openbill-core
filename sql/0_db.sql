@@ -40,7 +40,7 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
   id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   owner_id        UUID,
   username        character varying(255) not null,
-  date            date default current_date,
+  date            date default current_date not null,
   created_at      timestamp without time zone default current_timestamp,
   from_account_id uuid not null,
   to_account_id   uuid not null,

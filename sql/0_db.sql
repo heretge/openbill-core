@@ -39,6 +39,8 @@ CREATE INDEX index_accounts_on_created_at ON OPENBILL_ACCOUNTS USING btree (crea
 CREATE TABLE OPENBILL_OPERATIONS (
   id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   created_at      timestamp without time zone default current_timestamp,
+  from_account_id uuid not null,
+  to_account_id   uuid not null,
   owner_id        UUID,
   key             character varying(256) not null,
   details         text not null,
@@ -53,7 +55,7 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
   date            date default current_date not null,
   created_at      timestamp without time zone default current_timestamp,
   from_account_id uuid not null,
-  to_account_id   uuid not null,
+  to_account_id   uuid not null CONSTRAINT different_accounts CHECK (to_account_id<>from_account_id),
   amount_cents    numeric not null CONSTRAINT positive CHECK (amount_cents>0),
   amount_currency char(3) not null,
   key             character varying(256) not null,

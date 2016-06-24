@@ -1,9 +1,9 @@
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public; 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 CREATE                TABLE OPENBILL_CATEGORIES (
-  owner_id            UUID,
+  owner_id            integer,
   id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name                character varying(256) not null,
   parent_id           uuid,
@@ -15,7 +15,7 @@ CREATE UNIQUE INDEX index_openbill_categories_name ON OPENBILL_CATEGORIES USING 
 INSERT INTO OPENBILL_CATEGORIES  (name, id) values ('System', '12832d8d-43f5-499b-82a1-3466cadcd809');
 
 CREATE                TABLE OPENBILL_ACCOUNTS (
-  owner_id            UUID,
+  owner_id            integer,
   id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   category_id         uuid not null,
   key                 character varying(256) not null,
@@ -41,7 +41,7 @@ CREATE TABLE OPENBILL_OPERATIONS (
   created_at      timestamp without time zone default current_timestamp,
   from_account_id uuid not null,
   to_account_id   uuid not null,
-  owner_id        UUID,
+  owner_id        integer,
   key             character varying(256) not null,
   details         text not null,
   meta            hstore not null default ''::hstore
@@ -50,7 +50,7 @@ CREATE TABLE OPENBILL_OPERATIONS (
 CREATE TABLE OPENBILL_TRANSACTIONS (
   id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   operation_id    UUID,
-  owner_id        UUID,
+  owner_id        integer,
   username        character varying(255) not null,
   date            date default current_date not null,
   created_at      timestamp without time zone default current_timestamp,
